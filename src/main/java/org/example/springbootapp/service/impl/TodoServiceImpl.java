@@ -67,11 +67,23 @@ public class TodoServiceImpl implements TodoService {
 
     @Override
     public void delete(Long id) {
+        Todo todo = todoRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Todo with id " + id + " not found."));
 
+        checkSoftDelete(todo, "Todo with id " + id + " is already deleted.");
+
+        todo.setDeleted(true);
+        todoRepository.save(todo);
     }
 
     @Override
     public List<TaskHistoryResponseDto> findTaskHistory(Long id) {
         return List.of();
+    }
+
+    private void checkSoftDelete(Todo todo, String errorMessage) {
+        if (todo.isDeleted()) {
+            throw new IllegalStateException(errorMessage);
+        }
     }
 }
