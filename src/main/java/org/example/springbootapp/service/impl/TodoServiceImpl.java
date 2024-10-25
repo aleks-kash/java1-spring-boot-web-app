@@ -7,6 +7,7 @@ import org.example.springbootapp.dto.TodoCreateDto;
 import org.example.springbootapp.dto.TodoResponseDto;
 import org.example.springbootapp.dto.TodoUpdateDto;
 import org.example.springbootapp.exception.ResourceNotFoundException;
+import org.example.springbootapp.mapper.TaskHistoryMapper;
 import org.example.springbootapp.mapper.TodoMapper;
 import org.example.springbootapp.model.Status;
 import org.example.springbootapp.model.TaskHistory;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -26,6 +28,7 @@ public class TodoServiceImpl implements TodoService {
     private final TodoRepository todoRepository;
     private final TodoMapper todoMapper;
     private final TaskHistoryRepository taskHistoryRepository;
+    private final TaskHistoryMapper taskHistoryMapper;
 
     @Override
     public TodoResponseDto save(TodoCreateDto todoCreateDto) {
@@ -78,7 +81,16 @@ public class TodoServiceImpl implements TodoService {
 
     @Override
     public List<TaskHistoryResponseDto> findTaskHistory(Long id) {
-        return List.of();
+        Todo todo = todoRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Todo with id " + id + " not found."));
+
+        checkSoftDelete(todo, "Cannot view history of a deleted Todo.");
+
+        List<TaskHistory> historyList = taskHistoryRepository.findByTodoId(id);
+
+        return historyList.stream()
+                .map(taskHistoryMapper::toResponseDto)
+                .collect(Collectors.toList());
     }
 
     private void checkSoftDelete(Todo todo, String errorMessage) {
