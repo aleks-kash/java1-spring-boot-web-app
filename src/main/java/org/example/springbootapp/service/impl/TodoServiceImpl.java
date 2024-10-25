@@ -1,13 +1,17 @@
 package org.example.springbootapp.service.impl;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.example.springbootapp.dto.TaskHistoryResponseDto;
 import org.example.springbootapp.dto.TodoCreateDto;
 import org.example.springbootapp.dto.TodoResponseDto;
 import org.example.springbootapp.dto.TodoUpdateDto;
+import org.example.springbootapp.exception.ResourceNotFoundException;
 import org.example.springbootapp.mapper.TodoMapper;
 import org.example.springbootapp.model.Status;
+import org.example.springbootapp.model.TaskHistory;
 import org.example.springbootapp.model.Todo;
+import org.example.springbootapp.repository.TaskHistoryRepository;
 import org.example.springbootapp.repository.TodoRepository;
 import org.example.springbootapp.service.TodoService;
 import org.springframework.stereotype.Service;
@@ -21,6 +25,7 @@ public class TodoServiceImpl implements TodoService {
 
     private final TodoRepository todoRepository;
     private final TodoMapper todoMapper;
+    private final TaskHistoryRepository taskHistoryRepository;
 
     @Override
     public TodoResponseDto save(TodoCreateDto todoCreateDto) {
@@ -33,8 +38,31 @@ public class TodoServiceImpl implements TodoService {
     }
 
     @Override
+    @Transactional
     public TodoResponseDto update(Long id, TodoUpdateDto todoUpdateDto) {
-        return null;
+        Todo existingTodo = todoRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Todo with id " + id + " not found."));
+
+        Todo updatedTodo = todoMapper.toEntity(todoUpdateDto);
+        updatedTodo.setId(id);
+        updatedTodo.setCreatedDate(existingTodo.getCreatedDate());
+        updatedTodo.setUpdatedDate(LocalDateTime.now());
+
+        if (existingTodo.equals(updatedTodo)) {
+            return todoMapper.toResponseDto(existingTodo);
+        }
+
+        TaskHistory taskHistory = new TaskHistory();
+        taskHistory.setTodo(existingTodo);
+        taskHistory.setOldState(existingTodo.toString());
+
+        Todo savedTodo = todoRepository.save(updatedTodo);
+
+        taskHistory.setNewState(savedTodo.toString());
+        taskHistory.setChangeDate(LocalDateTime.now());
+        taskHistoryRepository.save(taskHistory);
+
+        return todoMapper.toResponseDto(savedTodo);
     }
 
     @Override
