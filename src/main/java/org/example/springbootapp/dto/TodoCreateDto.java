@@ -11,7 +11,7 @@ import org.hibernate.validator.constraints.Length;
 
 import java.time.LocalDateTime;
 
-public record TodoCreateDto (
+public record TodoCreateDto(
 
         @NotBlank(message = "Title can't be empty")
         @Length(max = 100, message = "Title length must not exceed 100 characters")

@@ -1,6 +1,15 @@
 package org.example.springbootapp.model;
 
-import jakarta.persistence.*;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -20,25 +29,25 @@ public class Todo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    private Long id;
 
-    String title;
+    private String title;
 
-    String description;
+    private String description;
 
-    LocalDateTime dueDate;
-
-    @Enumerated(EnumType.STRING)
-    Priority priority;
+    private LocalDateTime dueDate;
 
     @Enumerated(EnumType.STRING)
-    Status status;
+    private Priority priority;
 
-    LocalDateTime createdDate;
+    @Enumerated(EnumType.STRING)
+    private Status status;
 
-    LocalDateTime updatedDate;
+    private LocalDateTime createdDate;
 
-    Long userId = 1L;
+    private LocalDateTime updatedDate;
+
+    private Long userId = 1L;
 
     @ToString.Exclude
     @EqualsAndHashCode.Exclude

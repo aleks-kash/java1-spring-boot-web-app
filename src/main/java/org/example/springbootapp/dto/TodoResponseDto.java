@@ -5,7 +5,7 @@ import org.example.springbootapp.model.Status;
 
 import java.time.LocalDateTime;
 
-public record TodoResponseDto (
+public record TodoResponseDto(
         Long id,
         String title,
         String description,

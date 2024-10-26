@@ -2,7 +2,7 @@ package org.example.springbootapp.dto;
 
 import java.time.LocalDateTime;
 
-public record TaskHistoryResponseDto (
+public record TaskHistoryResponseDto(
         Long id,
         Long todoId,
         String oldState,
