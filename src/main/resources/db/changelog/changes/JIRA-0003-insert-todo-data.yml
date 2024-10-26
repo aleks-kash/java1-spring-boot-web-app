@@ -1,0 +1,38 @@
+databaseChangeLog:
+  - changeSet:
+      id: 3
+      author: alex-kash
+      changes:
+        - insert:
+            tableName: todo
+            columns:
+              - column:
+                  name: id
+                  value: "1"
+              - column:
+                  name: title
+                  value: "Test Task 1"
+              - column:
+                  name: description
+                  value: "This is a test task"
+              - column:
+                  name: due_date
+                  valueDate: 2024-12-01T12:00:00
+              - column:
+                  name: priority
+                  value: "HIGH"
+              - column:
+                  name: status
+                  value: "PENDING"
+              - column:
+                  name: created_date
+                  valueDate: 2024-10-01T09:00:00
+              - column:
+                  name: updated_date
+                  valueDate: 2024-10-02T10:00:00
+              - column:
+                  name: user_id
+                  value: "1"
+              - column:
+                  name: is_deleted
+                  valueBoolean: "false"

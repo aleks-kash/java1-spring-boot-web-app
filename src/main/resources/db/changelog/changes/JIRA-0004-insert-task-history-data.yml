@@ -1,0 +1,26 @@
+databaseChangeLog:
+  - changeSet:
+      id: 4
+      author: alex-kash
+      changes:
+        - insert:
+            tableName: task_history
+            columns:
+              - column:
+                  name: id
+                  value: "1"
+              - column:
+                  name: todo_id
+                  value: "1"
+              - column:
+                  name: old_state
+                  value: "Old state of the task"
+              - column:
+                  name: new_state
+                  value: "New state of the task"
+              - column:
+                  name: change_date
+                  valueDate: 2024-10-02T10:00:00
+              - column:
+                  name: changed_by
+                  value: "User1"
