@@ -93,6 +93,13 @@ public class TodoServiceImpl implements TodoService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public List<TodoResponseDto> findAllTodo() {
+        return todoRepository.findAll().stream()
+                .map(todoMapper::toResponseDto)
+                .toList();
+    }
+
     private void checkSoftDelete(Todo todo, String errorMessage) {
         if (todo.isDeleted()) {
             throw new IllegalStateException(errorMessage);

@@ -15,4 +15,6 @@ public interface TodoService {
     void delete(Long id);
 
     List<TaskHistoryResponseDto> findTaskHistory(Long id);
+
+    List<TodoResponseDto> findAllTodo();
 }

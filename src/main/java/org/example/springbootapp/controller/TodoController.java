@@ -45,4 +45,9 @@ public class TodoController {
     public List<TaskHistoryResponseDto> getTaskHistory(@PathVariable Long id) {
         return todoService.findTaskHistory(id);
     }
+
+    @GetMapping
+    public List<TodoResponseDto> getAll() {
+        return todoService.findAllTodo();
+    }
 }
