@@ -7,7 +7,9 @@ import org.example.springbootapp.dto.TodoCreateDto;
 import org.example.springbootapp.dto.TodoResponseDto;
 import org.example.springbootapp.dto.TodoUpdateDto;
 import org.example.springbootapp.service.TodoService;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -46,8 +48,14 @@ public class TodoController {
         return todoService.findTaskHistory(id);
     }
 
+//    @GetMapping
+//    public List<TodoResponseDto> getAll() {
+//        return todoService.findAllTodo();
+//    }
+
     @GetMapping
-    public List<TodoResponseDto> getAll() {
-        return todoService.findAllTodo();
+    public List<TodoResponseDto> findAll(Authentication authentication, Pageable pageable) {
+        String username = authentication.getName();
+        return todoService.findAll(username, pageable);
     }
 }

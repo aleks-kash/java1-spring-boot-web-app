@@ -12,9 +12,12 @@ import org.example.springbootapp.mapper.TodoMapper;
 import org.example.springbootapp.model.Status;
 import org.example.springbootapp.model.TaskHistory;
 import org.example.springbootapp.model.Todo;
+import org.example.springbootapp.model.User;
 import org.example.springbootapp.repository.TaskHistoryRepository;
 import org.example.springbootapp.repository.TodoRepository;
+import org.example.springbootapp.repository.UserRepository;
 import org.example.springbootapp.service.TodoService;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -29,6 +32,7 @@ public class TodoServiceImpl implements TodoService {
     private final TodoMapper todoMapper;
     private final TaskHistoryRepository taskHistoryRepository;
     private final TaskHistoryMapper taskHistoryMapper;
+    private final UserRepository userRepository;
 
     @Override
     public TodoResponseDto save(TodoCreateDto todoCreateDto) {
@@ -93,9 +97,18 @@ public class TodoServiceImpl implements TodoService {
                 .collect(Collectors.toList());
     }
 
+//    @Override
+//    public List<TodoResponseDto> findAllTodo() {
+//        return todoRepository.findAll().stream()
+//                .map(todoMapper::toResponseDto)
+//                .toList();
+//    }
+
     @Override
-    public List<TodoResponseDto> findAllTodo() {
-        return todoRepository.findAll().stream()
+    public List<TodoResponseDto> findAll(String email, Pageable pageable) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User with email " + email + " not found."));
+        return todoRepository.findAllByUserId(user.getId()).stream()
                 .map(todoMapper::toResponseDto)
                 .toList();
     }
