@@ -1,38 +1,115 @@
 databaseChangeLog:
   - changeSet:
-      id: 3
+      id: insert-todos
       author: alex-kash
       changes:
         - insert:
             tableName: todo
             columns:
-              - column:
-                  name: id
-                  value: "1"
-              - column:
-                  name: title
-                  value: "Test Task 1"
-              - column:
-                  name: description
-                  value: "This is a test task"
-              - column:
-                  name: due_date
-                  valueDate: 2024-12-01T12:00:00
-              - column:
-                  name: priority
-                  value: "HIGH"
-              - column:
-                  name: status
-                  value: "PENDING"
-              - column:
-                  name: created_date
-                  valueDate: 2024-10-01T09:00:00
-              - column:
-                  name: updated_date
-                  valueDate: 2024-10-02T10:00:00
-              - column:
-                  name: user_id
-                  value: "1"
-              - column:
-                  name: is_deleted
-                  valueBoolean: "false"
+              - column: {name: user_id, valueNumeric: 1}
+              - column: {name: title, value: "User 1 Task 1"}
+              - column: {name: description, value: "Description for User 1 Task 1"}
+              - column: {name: due_date, valueDate: "2024-12-01T12:00:00"}
+              - column: {name: priority, value: "HIGH"}
+              - column: {name: status, value: "PENDING"}
+              - column: {name: created_date, valueDate: "2024-10-01T09:00:00"}
+              - column: {name: updated_date, valueDate: "2024-10-02T10:00:00"}
+              - column: {name: is_deleted, valueBoolean: "false"}
+        - insert:
+            tableName: todo
+            columns:
+              - column: {name: user_id, valueNumeric: 1}
+              - column: {name: title, value: "User 1 Task 2"}
+              - column: {name: description, value: "Description for User 1 Task 2"}
+              - column: {name: due_date, valueDate: "2024-12-05T15:00:00"}
+              - column: {name: priority, value: "MEDIUM"}
+              - column: {name: status, value: "IN_PROGRESS"}
+              - column: {name: created_date, valueDate: "2024-10-03T09:00:00"}
+              - column: {name: updated_date, valueDate: "2024-10-04T10:00:00"}
+              - column: {name: is_deleted, valueBoolean: "false"}
+        - insert:
+            tableName: todo
+            columns:
+              - column: {name: user_id, valueNumeric: 1}
+              - column: {name: title, value: "User 1 Task 3"}
+              - column: {name: description, value: "Description for User 1 Task 3"}
+              - column: {name: due_date, valueDate: "2024-12-10T15:00:00"}
+              - column: {name: priority, value: "LOW"}
+              - column: {name: status, value: "COMPLETED"}
+              - column: {name: created_date, valueDate: "2024-10-05T09:00:00"}
+              - column: {name: updated_date, valueDate: "2024-10-06T10:00:00"}
+              - column: {name: is_deleted, valueBoolean: "false"}
+
+        - insert:
+            tableName: todo
+            columns:
+              - column: {name: user_id, valueNumeric: 2}
+              - column: {name: title, value: "User 2 Task 1"}
+              - column: {name: description, value: "Description for User 2 Task 1"}
+              - column: {name: due_date, valueDate: "2024-12-01T12:00:00"}
+              - column: {name: priority, value: "HIGH"}
+              - column: {name: status, value: "PENDING"}
+              - column: {name: created_date, valueDate: "2024-10-01T09:00:00"}
+              - column: {name: updated_date, valueDate: "2024-10-02T10:00:00"}
+              - column: {name: is_deleted, valueBoolean: "false"}
+        - insert:
+            tableName: todo
+            columns:
+              - column: {name: user_id, valueNumeric: 2}
+              - column: {name: title, value: "User 2 Task 2"}
+              - column: {name: description, value: "Description for User 2 Task 2"}
+              - column: {name: due_date, valueDate: "2024-12-05T15:00:00"}
+              - column: {name: priority, value: "MEDIUM"}
+              - column: {name: status, value: "IN_PROGRESS"}
+              - column: {name: created_date, valueDate: "2024-10-03T09:00:00"}
+              - column: {name: updated_date, valueDate: "2024-10-04T10:00:00"}
+              - column: {name: is_deleted, valueBoolean: "false"}
+        - insert:
+            tableName: todo
+            columns:
+              - column: {name: user_id, valueNumeric: 2}
+              - column: {name: title, value: "User 2 Task 3"}
+              - column: {name: description, value: "Description for User 2 Task 3"}
+              - column: {name: due_date, valueDate: "2024-12-10T15:00:00"}
+              - column: {name: priority, value: "LOW"}
+              - column: {name: status, value: "COMPLETED"}
+              - column: {name: created_date, valueDate: "2024-10-05T09:00:00"}
+              - column: {name: updated_date, valueDate: "2024-10-06T10:00:00"}
+              - column: {name: is_deleted, valueBoolean: "false"}
+
+        - insert:
+            tableName: todo
+            columns:
+              - column: {name: user_id, valueNumeric: 3}
+              - column: {name: title, value: "User 3 Task 1"}
+              - column: {name: description, value: "Description for User 3 Task 1"}
+              - column: {name: due_date, valueDate: "2024-12-01T12:00:00"}
+              - column: {name: priority, value: "HIGH"}
+              - column: {name: status, value: "PENDING"}
+              - column: {name: created_date, valueDate: "2024-10-01T09:00:00"}
+              - column: {name: updated_date, valueDate: "2024-10-02T10:00:00"}
+              - column: {name: is_deleted, valueBoolean: "false"}
+        - insert:
+            tableName: todo
+            columns:
+              - column: {name: user_id, valueNumeric: 3}
+              - column: {name: title, value: "User 3 Task 2"}
+              - column: {name: description, value: "Description for User 3 Task 2"}
+              - column: {name: due_date, valueDate: "2024-12-05T15:00:00"}
+              - column: {name: priority, value: "MEDIUM"}
+              - column: {name: status, value: "IN_PROGRESS"}
+              - column: {name: created_date, valueDate: "2024-10-03T09:00:00"}
+              - column: {name: updated_date, valueDate: "2024-10-04T10:00:00"}
+              - column: {name: is_deleted, valueBoolean: "false"}
+        - insert:
+            tableName: todo
+            columns:
+              - column: {name: user_id, valueNumeric: 3}
+              - column: {name: title, value: "User 3 Task 3"}
+              - column: {name: description, value: "Description for User 3 Task 3"}
+              - column: {name: due_date, valueDate: "2024-12-10T15:00:00"}
+              - column: {name: priority, value: "LOW"}
+              - column: {name: status, value: "COMPLETED"}
+              - column: {name: created_date, valueDate: "2024-10-05T09:00:00"}
+              - column: {name: updated_date, valueDate: "2024-10-06T10:00:00"}
+              - column: {name: is_deleted, valueBoolean: "false"}
