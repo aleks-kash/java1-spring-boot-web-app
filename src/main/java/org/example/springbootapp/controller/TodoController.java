@@ -9,6 +9,7 @@ import org.example.springbootapp.dto.TodoUpdateDto;
 import org.example.springbootapp.service.TodoService;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,11 +28,13 @@ import java.util.List;
 public class TodoController {
     private final TodoService todoService;
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping
     public TodoResponseDto save(@Valid @RequestBody TodoCreateDto todoCreateDto) {
         return todoService.save(todoCreateDto);
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("/{id}")
     public TodoResponseDto updateTodo(@PathVariable Long id, @Valid @RequestBody TodoUpdateDto todoUpdateDto) {
         return todoService.update(id, todoUpdateDto);
