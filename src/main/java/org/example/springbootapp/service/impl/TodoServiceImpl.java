@@ -27,8 +27,11 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import lombok.extern.log4j.Log4j2;
+
 @RequiredArgsConstructor
 @Service
+@Log4j2
 public class TodoServiceImpl implements TodoService {
 
     private final TodoRepository todoRepository;
@@ -60,6 +63,7 @@ public class TodoServiceImpl implements TodoService {
     @Override
     public TodoResponseDto save(TodoCreateDto todoCreateDto) {
         Long userId = getCurrentUserId();
+        log.info("user {} with email {} is trying to create a todo", userId, getCurrentUserName());
 
         Todo todo = todoMapper.toEntity(todoCreateDto);
         todo.setStatus(Status.PENDING);
