@@ -129,18 +129,11 @@ public class TodoServiceImpl implements TodoService {
                 .collect(Collectors.toList());
     }
 
-//    @Override
-//    public List<TodoResponseDto> findAllTodo() {
-//        return todoRepository.findAll().stream()
-//                .map(todoMapper::toResponseDto)
-//                .toList();
-//    }
-
     @Override
     public List<TodoResponseDto> findAll(String email, Pageable pageable) {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("User with email " + email + " not found."));
-        return todoRepository.findAllByUserId(user.getId()).stream()
+        return todoRepository.findAllByUserId(user.getId(), pageable).stream()
                 .map(todoMapper::toResponseDto)
                 .toList();
     }

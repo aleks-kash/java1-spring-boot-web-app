@@ -18,7 +18,5 @@ public interface TodoService {
 
     List<TaskHistoryResponseDto> findTaskHistory(Long id);
 
-//    List<TodoResponseDto> findAllTodo();
-
     List<TodoResponseDto> findAll(String email, Pageable pageable);
 }

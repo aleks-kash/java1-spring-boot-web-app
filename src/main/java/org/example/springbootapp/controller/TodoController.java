@@ -51,11 +51,6 @@ public class TodoController {
         return todoService.findTaskHistory(id);
     }
 
-//    @GetMapping
-//    public List<TodoResponseDto> getAll() {
-//        return todoService.findAllTodo();
-//    }
-
     @GetMapping
     public List<TodoResponseDto> findAll(Authentication authentication, Pageable pageable) {
         String username = authentication.getName();
