@@ -1,0 +1,1 @@
+DELETE FROM todo WHERE user_id = 4;
