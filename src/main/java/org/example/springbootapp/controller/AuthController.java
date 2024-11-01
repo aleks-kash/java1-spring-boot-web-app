@@ -4,7 +4,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.springbootapp.dto.user.UserLoginRequestDto;
 import org.example.springbootapp.dto.user.UserLoginResponseDto;
-import org.example.springbootapp.dto.user.UserRegistrationRequest;
+import org.example.springbootapp.dto.user.UserRegistrationRequestDto;
 import org.example.springbootapp.dto.user.UserResponseDto;
 import org.example.springbootapp.exception.RegistrationException;
 import org.example.springbootapp.security.AuthenticationService;
@@ -27,7 +27,7 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public UserResponseDto register(@Valid @RequestBody UserRegistrationRequest request) throws RegistrationException {
+    public UserResponseDto register(@Valid @RequestBody UserRegistrationRequestDto request) throws RegistrationException {
         return userService.register(request);
     }
 }

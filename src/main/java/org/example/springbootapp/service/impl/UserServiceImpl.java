@@ -1,7 +1,7 @@
 package org.example.springbootapp.service.impl;
 
 import lombok.RequiredArgsConstructor;
-import org.example.springbootapp.dto.user.UserRegistrationRequest;
+import org.example.springbootapp.dto.user.UserRegistrationRequestDto;
 import org.example.springbootapp.dto.user.UserResponseDto;
 import org.example.springbootapp.exception.RegistrationException;
 import org.example.springbootapp.mapper.UserMapper;
@@ -20,7 +20,7 @@ public class UserServiceImpl implements UserService {
     private final UserMapper userMapper;
 
     @Override
-    public UserResponseDto register(UserRegistrationRequest request) throws RegistrationException {
+    public UserResponseDto register(UserRegistrationRequestDto request) throws RegistrationException {
         if(userRepository.findByEmail(request.email()).isPresent()) {
             throw new RegistrationException("Unable to complete registration!");
         }
