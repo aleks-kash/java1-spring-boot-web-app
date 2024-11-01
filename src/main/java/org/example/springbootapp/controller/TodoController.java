@@ -8,6 +8,7 @@ import org.example.springbootapp.dto.TodoResponseDto;
 import org.example.springbootapp.dto.TodoUpdateDto;
 import org.example.springbootapp.service.TodoService;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -30,8 +31,9 @@ public class TodoController {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping
-    public TodoResponseDto save(@Valid @RequestBody TodoCreateDto todoCreateDto) {
-        return todoService.save(todoCreateDto);
+    public ResponseEntity<TodoResponseDto> save(@Valid @RequestBody TodoCreateDto todoCreateDto) {
+        TodoResponseDto responseDto = todoService.save(todoCreateDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(responseDto);
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
