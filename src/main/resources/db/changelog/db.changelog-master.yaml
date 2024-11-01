@@ -1,13 +1,22 @@
 databaseChangeLog:
   - include:
-      file: changes/JIRA-0001-add-todo-table.yml
+      file: changes/JIRA-0001-create-todo-table.yml
       relativeToChangelogFile: true
   - include:
-      file: changes/JIRA-0002-add-task-history-table.yml
+      file: changes/JIRA-0002-create-task-history-table.yml
       relativeToChangelogFile: true
   - include:
       file: changes/JIRA-0003-insert-todo-data.yml
       relativeToChangelogFile: true
   - include:
       file: changes/JIRA-0004-insert-task-history-data.yml
+      relativeToChangelogFile: true
+  - include:
+      file: changes/JIRA-0005-create-user-table.yml
+      relativeToChangelogFile: true
+  - include:
+      file: changes/JIRA-0006-insert-users.yml
+      relativeToChangelogFile: true
+  - include:
+      file: changes/JIRA-0007-set-bcrypt-password.yml
       relativeToChangelogFile: true

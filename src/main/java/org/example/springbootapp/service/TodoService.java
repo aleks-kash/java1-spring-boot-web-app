@@ -4,6 +4,7 @@ import org.example.springbootapp.dto.TaskHistoryResponseDto;
 import org.example.springbootapp.dto.TodoCreateDto;
 import org.example.springbootapp.dto.TodoResponseDto;
 import org.example.springbootapp.dto.TodoUpdateDto;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -15,4 +16,6 @@ public interface TodoService {
     void delete(Long id);
 
     List<TaskHistoryResponseDto> findTaskHistory(Long id);
+
+    List<TodoResponseDto> findAll(String email, Pageable pageable);
 }

@@ -12,29 +12,61 @@ import org.example.springbootapp.mapper.TodoMapper;
 import org.example.springbootapp.model.Status;
 import org.example.springbootapp.model.TaskHistory;
 import org.example.springbootapp.model.Todo;
+import org.example.springbootapp.model.User;
 import org.example.springbootapp.repository.TaskHistoryRepository;
 import org.example.springbootapp.repository.TodoRepository;
+import org.example.springbootapp.repository.UserRepository;
 import org.example.springbootapp.service.TodoService;
+import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import lombok.extern.log4j.Log4j2;
+
 @RequiredArgsConstructor
 @Service
+@Log4j2
 public class TodoServiceImpl implements TodoService {
 
     private final TodoRepository todoRepository;
     private final TodoMapper todoMapper;
     private final TaskHistoryRepository taskHistoryRepository;
     private final TaskHistoryMapper taskHistoryMapper;
+    private final UserRepository userRepository;
+
+    private Long getCurrentUserId() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof UserDetails) {
+            User user = (User) principal;
+            return user.getId();
+        } else {
+            throw new IllegalStateException("Current User is not authenticated");
+        }
+    }
+
+    private String getCurrentUserName() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof UserDetails) {
+            User user = (User) principal;
+            return user.getUsername();
+        } else {
+            throw new IllegalStateException("Current User is not authenticated");
+        }
+    }
 
     @Override
     public TodoResponseDto save(TodoCreateDto todoCreateDto) {
+        Long userId = getCurrentUserId();
+        log.info("user {} with email {} is trying to create a todo", userId, getCurrentUserName());
+
         Todo todo = todoMapper.toEntity(todoCreateDto);
         todo.setStatus(Status.PENDING);
-        todo.setUserId(1L);
+        todo.setUserId(userId);
         todo.setCreatedDate(LocalDateTime.now());
         todo.setUpdatedDate(LocalDateTime.now());
         return todoMapper.toResponseDto(todoRepository.save(todo));
@@ -50,6 +82,7 @@ public class TodoServiceImpl implements TodoService {
         updatedTodo.setId(id);
         updatedTodo.setCreatedDate(existingTodo.getCreatedDate());
         updatedTodo.setUpdatedDate(LocalDateTime.now());
+        updatedTodo.setUserId(getCurrentUserId());
 
         if (existingTodo.equals(updatedTodo)) {
             return todoMapper.toResponseDto(existingTodo);
@@ -63,6 +96,8 @@ public class TodoServiceImpl implements TodoService {
 
         taskHistory.setNewState(savedTodo.toString());
         taskHistory.setChangeDate(LocalDateTime.now());
+        taskHistory.setChangedBy(getCurrentUserName());
+
         taskHistoryRepository.save(taskHistory);
 
         return todoMapper.toResponseDto(savedTodo);
@@ -91,6 +126,15 @@ public class TodoServiceImpl implements TodoService {
         return historyList.stream()
                 .map(taskHistoryMapper::toResponseDto)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<TodoResponseDto> findAll(String email, Pageable pageable) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User with email " + email + " not found."));
+        return todoRepository.findAllByUserId(user.getId(), pageable).stream()
+                .map(todoMapper::toResponseDto)
+                .toList();
     }
 
     private void checkSoftDelete(Todo todo, String errorMessage) {

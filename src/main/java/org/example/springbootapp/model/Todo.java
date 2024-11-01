@@ -47,7 +47,7 @@ public class Todo {
 
     private LocalDateTime updatedDate;
 
-    private Long userId = 1L;
+    private Long userId;
 
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
